@@ -4,291 +4,112 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Ecological Validity Advisor — Social Gaming Research</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #0e0e0f;
-    --bg-surface: #161618;
-    --bg-raised: #1e1e21;
-    --border: rgba(255,255,255,0.08);
-    --border-mid: rgba(255,255,255,0.14);
-    --text: #f0ede8;
-    --text-secondary: #8a8780;
-    --text-tertiary: #555450;
-    --accent: #c8f060;
-    --accent-dim: rgba(200,240,96,0.12);
-    --accent-text: #a8d040;
-    --red: #ff5e5e;
-    --red-dim: rgba(255,94,94,0.12);
-    --amber: #f0a840;
-    --amber-dim: rgba(240,168,64,0.12);
-    --green: #60d090;
-    --green-dim: rgba(96,208,144,0.12);
-    --blue: #60b8f0;
-    --blue-dim: rgba(96,184,240,0.1);
-    --radius: 10px;
-    --radius-sm: 6px;
+    --bg: #f2f1ed;
+    --bg-surface: #ffffff;
+    --bg-raised: #eceae3;
+    --border: rgba(0,0,0,0.1);
+    --border-mid: rgba(0,0,0,0.2);
+    --text: #111110;
+    --text-secondary: #555450;
+    --text-tertiary: #999890;
+    --accent: #0047FF;
+    --accent-dim: rgba(0,71,255,0.06);
+    --red: #c82020;
+    --amber: #b87200;
+    --green: #187040;
+    --green-dim: rgba(24,112,64,0.07);
+    --amber-dim: rgba(184,114,0,0.07);
+    --red-dim: rgba(200,32,32,0.07);
+    --radius: 4px;
+    --radius-sm: 2px;
   }
-
   html { background: var(--bg); }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
-
+  body { font-family: 'IBM Plex Mono', monospace; background: var(--bg); color: var(--text); min-height: 100vh; }
   body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
   }
-
-  .wrap {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 3rem 2rem 5rem;
-    position: relative;
-    z-index: 1;
-  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 3rem 2rem 5rem; position: relative; z-index: 1; }
 
   .header { margin-bottom: 2.5rem; }
-  .eyebrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    color: var(--accent-text);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .header h1 {
-    font-size: 28px;
-    font-weight: 300;
-    color: var(--text);
-    line-height: 1.25;
-    letter-spacing: -0.02em;
-  }
-  .header h1 span { color: var(--accent); font-weight: 500; }
-  .header p {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-top: 8px;
-    line-height: 1.7;
-  }
+  .eyebrow { font-size: 10px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 500; line-height: 1.2; letter-spacing: -0.03em; }
+  .header h1 span { color: var(--accent); }
+  .header p { font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; color: var(--text-secondary); margin-top: 10px; line-height: 1.7; max-width: 560px; }
 
-  .steps {
-    display: flex;
-    margin-bottom: 2rem;
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-  .step-item {
-    flex: 1;
-    padding: 10px 14px;
-    font-size: 12px;
-    font-family: 'DM Mono', monospace;
-    color: var(--text-tertiary);
-    border-right: 0.5px solid var(--border);
-    background: var(--bg-surface);
-    transition: color 0.2s;
-  }
+  .steps { display: flex; margin-bottom: 2rem; border: 1px solid var(--border-mid); border-radius: var(--radius); overflow: hidden; }
+  .step-item { flex: 1; padding: 10px 14px; font-size: 11px; color: var(--text-tertiary); border-right: 1px solid var(--border); background: var(--bg-surface); transition: color 0.2s, background 0.2s; letter-spacing: 0.03em; }
   .step-item:last-child { border-right: none; }
   .step-item.active { color: var(--accent); background: var(--accent-dim); }
-  .step-item.done { color: var(--green); }
-  .step-num { display: block; font-size: 10px; opacity: 0.5; margin-bottom: 2px; }
+  .step-item.done { color: var(--green); background: var(--green-dim); }
+  .step-num { display: block; font-size: 9px; opacity: 0.4; margin-bottom: 2px; }
 
-  .card {
-    background: var(--bg-surface);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.25rem;
-    margin-bottom: 12px;
-  }
-  .card-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-tertiary);
-    margin-bottom: 8px;
-  }
-  .field-hint { font-size: 12px; color: var(--text-tertiary); margin-bottom: 10px; line-height: 1.5; }
+  .card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 10px; }
+  .card-label { font-size: 9px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 8px; }
+  .field-hint { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; color: var(--text-tertiary); margin-bottom: 10px; line-height: 1.5; }
 
-  textarea, select {
-    width: 100%;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    background: var(--bg-raised);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 10px 13px;
-    line-height: 1.6;
-    appearance: none;
-    transition: border-color 0.15s;
-  }
+  textarea, select { width: 100%; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; color: var(--text); background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 13px; line-height: 1.6; appearance: none; transition: border-color 0.15s, background 0.15s; }
   textarea { resize: none; }
-  textarea:focus, select:focus { outline: none; border-color: rgba(200,240,96,0.4); }
-  select {
-    cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23555450'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 32px;
-  }
-
+  textarea:focus, select:focus { outline: none; border-color: var(--accent); background: #fff; }
+  select { font-family: 'IBM Plex Mono', monospace; font-size: 12px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23999890'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--accent);
-    color: #0e0e0f;
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 11px 24px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: opacity 0.15s, transform 0.1s;
-  }
-  .btn:hover { opacity: 0.9; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); padding: 11px 22px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; cursor: pointer; transition: opacity 0.15s, transform 0.1s; }
+  .btn:hover { opacity: 0.85; }
   .btn:active { transform: scale(0.98); }
   .btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
-  .btn-ghost {
-    background: transparent;
-    color: var(--text-secondary);
-    border: 0.5px solid var(--border-mid);
-    border-radius: var(--radius-sm);
-    padding: 10px 20px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-  }
+  .btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border-mid); border-radius: var(--radius-sm); padding: 10px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.04em; cursor: pointer; transition: background 0.15s, color 0.15s; }
   .btn-ghost:hover { background: var(--bg-raised); color: var(--text); }
 
-  #section-loading {
-    display: none;
-    text-align: center;
-    padding: 4rem 0;
-  }
-  .spinner-ring {
-    width: 36px; height: 36px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 16px;
-  }
+  #section-loading { display: none; text-align: center; padding: 4rem 0; }
+  .spinner-ring { width: 32px; height: 32px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  #loading-msg { font-size: 14px; color: var(--text-secondary); font-family: 'DM Mono', monospace; }
+  #loading-msg { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.08em; }
 
   #section-results { display: none; }
 
-  .score-hero {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-    padding: 1.5rem;
-    background: var(--bg-surface);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 12px;
-  }
-  .score-num {
-    font-size: 64px;
-    font-weight: 300;
-    line-height: 1;
-    letter-spacing: -0.04em;
-    font-family: 'DM Mono', monospace;
-    min-width: 110px;
-  }
+  .score-hero { display: flex; align-items: center; gap: 28px; padding: 1.5rem; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; }
+  .score-num { font-size: 68px; font-weight: 400; line-height: 1; letter-spacing: -0.05em; min-width: 120px; }
   .score-num.high { color: var(--green); }
   .score-num.mid { color: var(--amber); }
   .score-num.low { color: var(--red); }
-  .score-verdict { font-size: 16px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
-  .score-summary { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+  .score-verdict { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 6px; letter-spacing: 0.03em; }
+  .score-summary { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
 
   .risk-item { margin-bottom: 14px; }
-  .risk-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
-  .risk-name { font-size: 13px; color: var(--text); }
-  .risk-note { font-size: 12px; color: var(--text-secondary); max-width: 55%; text-align: right; }
-  .bar-track { height: 4px; background: var(--bg-raised); border-radius: 99px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 99px; transition: width 0.8s cubic-bezier(0.16,1,0.3,1); }
+  .risk-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .risk-name { font-size: 12px; color: var(--text); letter-spacing: 0.02em; }
+  .risk-note { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; color: var(--text-secondary); max-width: 52%; text-align: right; }
+  .bar-track { height: 3px; background: var(--bg-raised); overflow: hidden; }
+  .bar-fill { height: 100%; transition: width 0.9s cubic-bezier(0.16,1,0.3,1); }
 
   .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
-  .tag { font-size: 12px; font-family: 'DM Mono', monospace; padding: 4px 10px; border-radius: 99px; }
-  .tag-good { background: var(--green-dim); color: var(--green); }
-  .tag-warn { background: var(--amber-dim); color: var(--amber); }
+  .tag { font-size: 11px; padding: 3px 10px; border-radius: 1px; letter-spacing: 0.04em; }
+  .tag-good { background: var(--green-dim); color: var(--green); border: 1px solid rgba(24,112,64,0.15); }
+  .tag-warn { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(184,114,0,0.15); }
 
-  .rec-item {
-    border-left: 2px solid var(--accent);
-    padding: 12px 16px;
-    margin-bottom: 10px;
-    background: var(--accent-dim);
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  }
-  .rec-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 5px; }
-  .rec-body { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+  .rec-item { border-left: 2px solid var(--accent); padding: 12px 16px; margin-bottom: 8px; background: var(--accent-dim); }
+  .rec-title { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 5px; letter-spacing: 0.02em; }
+  .rec-body { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
 
-  .chat-container {
-    background: var(--bg-surface);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    margin-bottom: 12px;
-  }
-  .chat-header {
-    padding: 12px 16px;
-    border-bottom: 0.5px solid var(--border);
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-tertiary);
-  }
-  .chat-msgs {
-    padding: 1rem;
-    min-height: 100px;
-    max-height: 300px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .chat-msgs::-webkit-scrollbar { width: 4px; }
-  .chat-msgs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
-  .msg { max-width: 84%; padding: 10px 14px; font-size: 14px; line-height: 1.65; border-radius: var(--radius-sm); }
-  .msg.bot { background: var(--bg-raised); color: var(--text); align-self: flex-start; border: 0.5px solid var(--border); }
-  .msg.user { background: var(--accent); color: #0e0e0f; align-self: flex-end; }
-  .chat-input-row { display: flex; border-top: 0.5px solid var(--border); }
-  .chat-input-row input {
-    flex: 1; border: none; background: transparent;
-    padding: 13px 16px; font-family: 'DM Sans', sans-serif;
-    font-size: 14px; color: var(--text);
-  }
+  .chat-container { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 10px; }
+  .chat-header { padding: 10px 16px; border-bottom: 1px solid var(--border); font-size: 9px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text-tertiary); }
+  .chat-msgs { padding: 1rem; min-height: 100px; max-height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+  .chat-msgs::-webkit-scrollbar { width: 3px; }
+  .chat-msgs::-webkit-scrollbar-thumb { background: var(--border-mid); }
+  .msg { max-width: 84%; padding: 9px 13px; font-size: 13px; line-height: 1.65; border-radius: var(--radius-sm); }
+  .msg.bot { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg-raised); color: var(--text); align-self: flex-start; border: 1px solid var(--border); }
+  .msg.user { font-family: 'IBM Plex Mono', monospace; font-size: 12px; background: var(--accent); color: #fff; align-self: flex-end; }
+  .chat-input-row { display: flex; border-top: 1px solid var(--border); }
+  .chat-input-row input { flex: 1; border: none; background: transparent; padding: 12px 14px; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; color: var(--text); }
   .chat-input-row input::placeholder { color: var(--text-tertiary); }
   .chat-input-row input:focus { outline: none; }
-  .chat-input-row button {
-    background: none; border: none;
-    border-left: 0.5px solid var(--border);
-    padding: 0 18px; cursor: pointer;
-    color: var(--text-secondary); font-size: 18px;
-    transition: color 0.15s;
-  }
+  .chat-input-row button { background: none; border: none; border-left: 1px solid var(--border); padding: 0 16px; cursor: pointer; color: var(--text-tertiary); font-size: 16px; transition: color 0.15s; }
   .chat-input-row button:hover { color: var(--accent); }
   .footer-actions { display: flex; gap: 10px; margin-top: 1.5rem; }
 
@@ -303,27 +124,27 @@
 <div class="wrap">
 
   <div class="header">
-    <div class="eyebrow">Social Gaming Research Tool</div>
-    <h1>Ecological validity <span>advisor</span></h1>
+    <div class="eyebrow">// social gaming research tool</div>
+    <h1>ecological validity <span>advisor</span></h1>
     <p>Audit your study design against ecological validity principles — catch gaps before you field, get specific recommendations for social gaming research.</p>
   </div>
 
   <div class="steps">
-    <div class="step-item active" id="sp1"><span class="step-num">01</span>study setup</div>
-    <div class="step-item" id="sp2"><span class="step-num">02</span>validity audit</div>
+    <div class="step-item active" id="sp1"><span class="step-num">01</span>study_setup</div>
+    <div class="step-item" id="sp2"><span class="step-num">02</span>validity_audit</div>
     <div class="step-item" id="sp3"><span class="step-num">03</span>recommendations</div>
   </div>
 
   <div id="section-form">
     <div class="card">
-      <div class="card-label">Research goal</div>
+      <div class="card-label">research_goal</div>
       <div class="field-hint">What player behaviour or experience are you trying to understand?</div>
       <textarea id="f-goal" rows="4" placeholder="e.g. Understand how players experience frustration during losing streaks in squad-based multiplayer, and whether it leads to disengagement or toxic behaviour toward teammates."></textarea>
     </div>
     <div class="card">
       <div class="two-col">
         <div>
-          <div class="card-label">Game / genre</div>
+          <div class="card-label">game_genre</div>
           <select id="f-genre">
             <option>Squad-based shooter (e.g. Apex, Battlefield)</option>
             <option>Battle royale (e.g. Fortnite, PUBG)</option>
@@ -335,7 +156,7 @@
           </select>
         </div>
         <div>
-          <div class="card-label">Planned research method</div>
+          <div class="card-label">research_method</div>
           <select id="f-method">
             <option>Moderated usability / play session</option>
             <option>Unmoderated remote session</option>
@@ -352,7 +173,7 @@
     <div class="card">
       <div class="two-col">
         <div>
-          <div class="card-label">Session setting</div>
+          <div class="card-label">session_setting</div>
           <select id="f-setting">
             <option>Lab / in-person (researcher present)</option>
             <option>Remote, researcher observing live</option>
@@ -362,7 +183,7 @@
           </select>
         </div>
         <div>
-          <div class="card-label">Social condition</div>
+          <div class="card-label">social_condition</div>
           <select id="f-social">
             <option>Solo play (no other players)</option>
             <option>Playing with recruited strangers</option>
@@ -374,48 +195,48 @@
       </div>
     </div>
     <div class="card">
-      <div class="card-label">Additional context</div>
+      <div class="card-label">additional_context</div>
       <div class="field-hint">Timeline, platform, participant pool, stakeholder needs — anything relevant.</div>
       <textarea id="f-context" rows="2" placeholder="e.g. 2-week timeline, PC only, recruiting from existing player panel..."></textarea>
     </div>
-    <button class="btn" id="btn-audit" onclick="runAudit()">
-      Audit my study design
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <button class="btn" onclick="runAudit()">
+      run_audit()
+      <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
   </div>
 
   <div id="section-loading">
     <div class="spinner-ring"></div>
-    <div id="loading-msg">Analyzing your study design…</div>
+    <div id="loading-msg">analyzing study design...</div>
   </div>
 
   <div id="section-results">
     <div class="score-hero">
       <div class="score-num" id="ev-score">—</div>
-      <div class="score-meta">
+      <div>
         <div class="score-verdict" id="ev-verdict"></div>
         <div class="score-summary" id="ev-summary"></div>
       </div>
     </div>
     <div class="card">
-      <div class="card-label">Validity risk breakdown</div>
+      <div class="card-label">validity_risk_breakdown</div>
       <div id="risk-bars"></div>
       <div class="tags" id="risk-tags"></div>
     </div>
     <div class="card">
-      <div class="card-label">Recommended design adjustments</div>
+      <div class="card-label">recommended_adjustments</div>
       <div id="recs-list"></div>
     </div>
     <div class="chat-container">
-      <div class="chat-header">Ask a follow-up</div>
+      <div class="chat-header">// ask_followup</div>
       <div class="chat-msgs" id="chat-msgs"></div>
       <div class="chat-input-row">
-        <input type="text" id="chat-input" placeholder="e.g. How would a diary study change my score?" onkeydown="if(event.key==='Enter')sendChat()" />
+        <input type="text" id="chat-input" placeholder="e.g. how would a diary study change my score?" onkeydown="if(event.key==='Enter')sendChat()" />
         <button onclick="sendChat()">↑</button>
       </div>
     </div>
     <div class="footer-actions">
-      <button class="btn-ghost" onclick="resetTool()">← Start over</button>
+      <button class="btn-ghost" onclick="resetTool()">← reset</button>
     </div>
   </div>
 
@@ -423,7 +244,7 @@
 <script>
 let studyContext = {};
 let chatHistory = [];
-const loadingMsgs = ['Analyzing your study design…','Checking for observer effects…','Stress-testing social conditions…','Consulting the validity playbook…','Almost there…'];
+const loadingMsgs = ['analyzing study design...','checking for observer effects...','stress-testing social conditions...','consulting validity playbook...','almost done...'];
 
 async function callClaude(messages, system) {
   const res = await fetch('/api/chat', {
@@ -439,23 +260,15 @@ async function callClaude(messages, system) {
 async function runAudit() {
   const goal = document.getElementById('f-goal').value.trim();
   if (!goal) { document.getElementById('f-goal').focus(); return; }
-  studyContext = {
-    goal, genre: document.getElementById('f-genre').value,
-    method: document.getElementById('f-method').value,
-    setting: document.getElementById('f-setting').value,
-    social: document.getElementById('f-social').value,
-    context: document.getElementById('f-context').value
-  };
+  studyContext = { goal, genre: document.getElementById('f-genre').value, method: document.getElementById('f-method').value, setting: document.getElementById('f-setting').value, social: document.getElementById('f-social').value, context: document.getElementById('f-context').value };
   document.getElementById('section-form').style.display = 'none';
   document.getElementById('section-loading').style.display = 'block';
   document.getElementById('sp1').className = 'step-item done';
   document.getElementById('sp2').className = 'step-item active';
   let mi = 0;
   const ticker = setInterval(() => { mi=(mi+1)%loadingMsgs.length; document.getElementById('loading-msg').textContent=loadingMsgs[mi]; }, 1800);
-
   const system = `You are a world-class games user researcher specialising in ecological validity and social gaming research. Audit the study design and return ONLY valid JSON with no markdown fences or preamble:
 {"score":0-100,"verdict":"High validity"|"Moderate validity"|"Low validity","summary":"2-sentence plain-language verdict","risks":[{"name":"Observer effect","score":0-100,"color":"red|amber|green","note":"short note"},{"name":"Social authenticity","score":0-100,"color":"red|amber|green","note":"short note"},{"name":"Emotional realism","score":0-100,"color":"red|amber|green","note":"short note"},{"name":"Environment fidelity","score":0-100,"color":"red|amber|green","note":"short note"},{"name":"Task naturalness","score":0-100,"color":"red|amber|green","note":"short note"}],"strengths":["strength 1","strength 2"],"gaps":["gap 1","gap 2","gap 3"],"recommendations":[{"title":"short action title","body":"2-3 sentence practical suggestion specific to social gaming"},{"title":"...","body":"..."},{"title":"...","body":"..."}]}`;
-
   const prompt = `Study goal: ${studyContext.goal}\nGame genre: ${studyContext.genre}\nMethod: ${studyContext.method}\nSetting: ${studyContext.setting}\nSocial condition: ${studyContext.social}\nAdditional context: ${studyContext.context||'none'}`;
   try {
     const raw = await callClaude([{role:'user',content:prompt}], system);
@@ -481,7 +294,7 @@ function renderResults(r) {
   scoreEl.className = 'score-num '+(r.score>=70?'high':r.score>=45?'mid':'low');
   document.getElementById('ev-verdict').textContent = r.verdict;
   document.getElementById('ev-summary').textContent = r.summary;
-  const fillColors = {red:'#ff5e5e',amber:'#f0a840',green:'#60d090'};
+  const fillColors = {red:'#c82020',amber:'#b87200',green:'#187040'};
   const textColors = {red:'var(--red)',amber:'var(--amber)',green:'var(--green)'};
   const bars = document.getElementById('risk-bars');
   bars.innerHTML = '';
@@ -505,7 +318,7 @@ async function sendChat() {
   input.value = '';
   appendChat('user', val);
   chatHistory.push({role:'user',content:val});
-  const thinking = appendChat('bot','…',true);
+  const thinking = appendChat('bot','...',true);
   const system = `You are a senior games UX researcher advising on ecological validity. Answer follow-up questions concisely (2-4 sentences). Study context: ${JSON.stringify(studyContext)}`;
   try {
     const reply = await callClaude(chatHistory, system);
